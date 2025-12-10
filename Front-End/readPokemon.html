@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Pokémon</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <style>
+        .pokedex-card {
+            border-top: 10px solid #dc3545; /* Topo vermelho estilo Pokedex */
+            border-radius: 15px;
+        }
+        .stat-icon {
+            width: 40px;
+            text-align: center;
+        }
+        .img-preview-box {
+            height: 200px;
+            background-color: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #adb5bd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .form-floating > label {
+            z-index: 2; /* Garante que o label fique visível */
+        }
+    </style>
+</head>
+
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-danger px-3 shadow-sm">
+        <span class="navbar-brand mb-0 h1 fw-bold"><i class="fas fa-gamepad me-2"></i>Pokedex Manager</span>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="menuNavbar">
+            <ul class="navbar-nav align-items-center gap-2">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link text-white">Dashboard</a></li>
+                <li class="nav-item"><a href="viewPokemon.html" class="nav-link text-white">Consultar</a></li>
+                <li class="nav-item"><a href="trainerData.html" class="btn btn-sm btn-dark bg-opacity-25 border-0 text-white fw-bold px-3">Perfil</a></li>
+                <li class="nav-item"><a href="" class="btn btn-outline-light btn-sm px-3">Sair</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<main class="container my-5 flex-grow-1">
+    <form action="" method="post">
+        <div class="card shadow-lg border-0 pokedex-card p-2">
+            <div class="card-body">
+
+                <div class="row mb-4 align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="fw-bold text-danger"><i class="fas fa-pen-fancy me-2"></i>Dados do Pokémon</h2>
+                        <p class="text-muted">Preencha os campos abaixo para registrar um novo monstrinho na base de dados.</p>
+                    </div>
+                    <div class="col-md-4 text-end d-none d-md-block">
+                        <i class="fas fa-circle-notch fa-spin text-danger opacity-25" style="font-size: 3rem;"></i>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+
+                    <div class="col-lg-4 border-end-lg">
+                        <h5 class="text-secondary mb-3"><i class="fas fa-id-card me-2"></i>Identificação</h5>
+
+                        <div class="mb-3">
+                            <div class="img-preview-box mb-2">
+                                <i class="fas fa-image fa-3x"></i>
+                            </div>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" name="" id="img-id" placeholder="URL da Imagem" required>
+                                <label for="img-id">URL da Imagem</label>
+                            </div>
+                        </div>
+
+                        <div class="row g-2">
+                            <div class="col-4">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" name="" id="pokemon-id" placeholder="Nº" required>
+                                    <label for="pokemon-id">Nº Dex</label>
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="" id="name_english-id" placeholder="Nome" required>
+                                    <label for="name_english-id">Nome (Inglês)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <label class="form-label text-muted small">Tipos</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fas fa-fire text-danger"></i></span>
+                                <input type="text" class="form-control" name="" id="type-id" placeholder="Ex: Fire, Flying" required>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h5 class="text-secondary mb-3"><i class="fas fa-dna me-2"></i>Características</h5>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <div class="input-group">
+                                        <span class="input-group-text" title="Altura"><i class="fas fa-ruler-vertical"></i></span>
+                                        <input type="number" class="form-control" id="height-id" placeholder="Altura" required>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-group">
+                                        <span class="input-group-text" title="Peso"><i class="fas fa-weight-hanging"></i></span>
+                                        <input type="number" class="form-control" id="weight-id" placeholder="Peso" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="specie-id" placeholder="Espécie" required>
+                                        <label for="specie-id">Espécie</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8">
+
+                        <h5 class="text-secondary mb-3"><i class="fas fa-chart-bar me-2"></i>Status Base</h5>
+                        <div class="row g-3 bg-light p-3 rounded-3 border mb-4">
+
+                            <div class="col-md-4 col-6">
+                                <label class="form-label small fw-bold text-success">HP</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text stat-icon"><i class="fas fa-heart text-success"></i></span>
+                                    <input type="number" class="form-control" id="hp-id" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-6">
+                                <label class="form-label small fw-bold text-danger">Attack</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text stat-icon"><i class="fas fa-fist-raised text-danger"></i></span>
+                                    <input type="number" class="form-control" id="attack-id" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-6">
+                                <label class="form-label small fw-bold text-primary">Defense</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text stat-icon"><i class="fas fa-shield-alt text-primary"></i></span>
+                                    <input type="number" class="form-control" id="defense-id" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-6">
+                                <label class="form-label small fw-bold text-info">Sp. Atk</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text stat-icon"><i class="fas fa-meteor text-info"></i></span>
+                                    <input type="number" class="form-control" id="sp-attack-id" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-6">
+                                <label class="form-label small fw-bold text-primary-emphasis">Sp. Def</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text stat-icon"><i class="fas fa-shield-virus text-primary-emphasis"></i></span>
+                                    <input type="number" class="form-control" id="sp-defense-id" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-6">
+                                <label class="form-label small fw-bold text-warning">Speed</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text stat-icon"><i class="fas fa-tachometer-alt text-warning"></i></span>
+                                    <input type="number" class="form-control" id="speed-id" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h5 class="text-secondary mb-3"><i class="fas fa-info-circle me-2"></i>Detalhes Adicionais</h5>
+
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" placeholder="Descrição" id="description-id" style="height: 100px" required></textarea>
+                            <label for="description-id">Descrição da Pokédex</label>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="prev-evolution-id" placeholder="Anterior">
+                                    <label for="prev-evolution-id">Evolução Anterior</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="next-evolution-id" placeholder="Próxima">
+                                    <label for="next-evolution-id">Evolução Posterior</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="egg-id" placeholder="Grupos de Ovo" required>
+                                    <label for="egg-id">Grupo de Ovos</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="ability-id" placeholder="Habilidades" required>
+                                    <label for="ability-id">Habilidade Principal</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="genre-id" placeholder="Gênero" required>
+                                    <label for="genre-id">Proporção de Gênero</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="check-id">
+                                    <label class="form-check-label" for="check-id">Possui Habilidade Oculta?</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-12 text-end border-top pt-3">
+                        <button type="button" class="btn btn-outline-secondary me-2">Cancelar</button>
+                        <button class="btn btn-danger btn-lg px-5 shadow" id="btn-go">
+                            <i class="fas fa-save me-2"></i> Registrar na Pokedex
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</main>
+
+<footer class="text-center text-lg-start bg-body-tertiary text-muted mt-auto">
+    <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+        <div class="me-5 d-none d-lg-block">
+            <span>Conecte-se comigo nas redes sociais</span>
+        </div>
+        <div>
+            <a href="" class="me-4 text-reset text-decoration-none"><i class="fab fa-instagram"></i></a>
+            <a href="" class="me-4 text-reset text-decoration-none"><i class="fab fa-github"></i></a>
+            <a href="" class="me-4 text-reset text-decoration-none"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </section>
+    <div class="text-center p-4">
+        © 2025 Copyright: <a class="text-reset fw-bold" href="">Kayky-ctrl</a>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
