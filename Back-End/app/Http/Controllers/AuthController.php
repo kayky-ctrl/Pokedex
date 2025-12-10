@@ -32,7 +32,6 @@ class AuthController extends Controller
                 return response()->json(['message' => 'Não foi possível realizar seu cadastro na Pokédex devido a informações conflitantes de tipos de dados'], 422);
             }
 
-
             return response()->json(['message' => 'Não foi possível realizar seu cadastro na Pokédex devido à falta de informações'], 422);
         }
 

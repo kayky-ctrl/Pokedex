@@ -120,6 +120,52 @@
         </div>
     </footer>
 
+    <script src="js/api.js"></script>
+
+    <script>
+        const formLogin = document.querySelector('form');
+
+        formLogin.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const btnSubmit = formLogin.querySelector('button');
+
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = 'Autenticando...';
+
+            try {
+                const response = await fetch(`${API_URL}/Login`, {
+                    method: 'POST',
+                    headers: {
+                        'ContentType': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                });
+
+                const data = await response.json();
+
+                if (response.ok){
+                    localStorage.setItem('user_token', data.token);
+                    window.localStorage.href = 'dashboard.html'
+                }
+                else{
+                    alert(data.message || 'Erro ao fazer login')
+                }
+            }
+            catch (error){
+                console.error('Erro', error);
+                alert('Erro na conexão com o servidor')
+            }
+            finally {
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = 'Sign in'
+            }
+
+        })
+    </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
