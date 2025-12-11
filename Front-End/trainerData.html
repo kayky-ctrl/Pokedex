@@ -303,8 +303,43 @@
     </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <script src="js/api.js"></script>
+<script>
+    async function loadProfile() {
+        try {
+            const response = await authFetch('/user'); // Rota que criamos no api.php
+            if(!response.ok) return;
+
+            const user = await response.json();
+
+            // Atualiza HTML (assumindo que existem elementos com ID ou classes específicas)
+            // No seu HTML atual, os dados são estáticos ("Ash Ketchum").
+            // Você precisa adicionar IDs nos elementos HTML para o JS preencher.
+
+            // Exemplo de como selecionar se você adicionar id="profile-name" no H3
+            const nameEl = document.querySelector('h3.fw-bold');
+            if(nameEl) nameEl.textContent = `${user.name} ${user.lastname}`;
+
+            const emailEl = document.querySelector('span:contains("@")') || document.querySelector('.profile-card-header + div span');
+            // A seleção acima é frágil sem IDs, recomendo colocar IDs no HTML: id="profile-email", id="profile-city"
+
+            // Exemplo com querySelector mais genérico baseado no seu HTML
+            const infos = document.querySelectorAll('.text-start span');
+            if(infos.length >= 3) {
+                infos[0].textContent = user.city; // Região/Cidade
+                infos[1].textContent = new Date(user.birthdate).toLocaleDateString('pt-BR'); // Data
+                // infos[2] seria o email, mas o AuthController não retorna email no trainerData, apenas username
+                infos[2].textContent = user.username;
+            }
+
+        } catch (error) {
+            console.error('Erro ao carregar perfil', error);
+        }
+    }
+
+    loadProfile();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 </body>
 </html>

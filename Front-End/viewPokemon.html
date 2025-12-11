@@ -62,8 +62,8 @@
         <div class="collapse navbar-collapse justify-content-end" id="menuNavbar">
             <ul class="navbar-nav align-items-center gap-2">
                 <li class="nav-item"><a href="dashboard.html" class="nav-link text-white">Dashboard</a></li>
-                <li class="nav-item"><a href="viewPokemon.html"
-                                        class="btn btn-sm btn-dark bg-opacity-25 border-0 text-white fw-bold px-3">Consultar</a>
+                <li class="nav-item"><a href="readPokemon.html"
+                                        class="btn btn-sm btn-dark bg-opacity-25 border-0 text-white fw-bold px-3">Listar um novo pokémon</a>
                 </li>
                 <li class="nav-item"><a href="trainerData.html" class="nav-link text-white">Perfil</a></li>
                 <li class="nav-item"><a href="" class="btn btn-outline-light btn-sm px-3">Sair</a></li>
@@ -209,10 +209,89 @@
     </div>
 </footer>
 
+<script src="js/api.js"></script>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialId = urlParams.get('id');
+
+    if (initialId){
+        document.getElementById('searchInput').value = initialId;
+        searchPokemon(initialId);
+    }
+
+    async function searchPokemon(idOverride = null){
+        const inputVal = idOverride || document.getElementById('searchInput').value;
+        const spinner = document.getElementById('loadingSpinner');
+        const card = document.getElementById('pokemonCard');
+        const errorMsg = document.getElementById('errorMessage');
+
+        if (!inputVal || isNaN(inputVal)){
+            alert('Por favor, digite um valor de ID valido (ex: 25)');
+            return
+        }
+
+        spinner.classList.remove('d-none');
+        card.classList.add('d-none');
+        errorMsg.classList.add('d-none');
+
+        try {
+            const response = await authFetch(`/pokemon/view`, {
+                method: 'POST',
+                body: JSON.stringify({id: parseInt(inputVal)})
+            });
+
+            if (!response.ok) throw new Error('Pokemon não encontrado');
+
+            const poke = await response.json();
+            fillPokemonData(poke);
+
+            spinner.classList.add('d-none');
+            card.classList.remove('d-none');
+            card.classList.add('fade-in');
+
+        }
+        catch (error){
+            spinner.classList.add('d-none');
+            errorMsg.classList.remove('d-none');
+        }
+    }
+
+    function fillPokemonData(poke){
+        document.getElementById('pokeName').textContent = poke.name_english;
+        document.getElementById('pokeId').textContent = `#${poke.pokedex_id || poke.id}`;
+
+        let imgUrl = poke.image;
+        document.getElementById('pokeImage').src = poke.image.hires;
+
+        const typesdiv = document.getElementById('pokeTypes');
+
+        typesdiv.innerHTML = poke.types.map(t =>
+            `<span class="badge bg-secundary type-badge">${t.name_english}</span>`
+        ).join('');
+
+        const stats = poke.base || {};
+
+        updateStat('hp', stats['HP'] || 0);
+        updateStat('atk', stats['Attack'] || 0);
+        updateStat('def', stats['Defense'] || 0);
+        updateStat('spd', stats['Speed'] || 0);
+
+        const profile = poke.profile || {};
+        document.getElementById('pokeHeight').textContent = profile.height || '---';
+        document.getElementById('pokeWeight').textContent = profile.weight || '---';
+        document.getElementById('pokeAbility').textContent = profile.ability ? profile.ability[0] : '---';
+    }
+
+    function updateStat(id, value) {
+        document.getElementById(`val-${id}`).textContent = value;
+        const percent = Math.min((value / 255) * 100, 100);
+        document.getElementById(`bar-${id}`).style.width = `${percent}%`;
+    }
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
-<script src="js/api.js"></script>
 
 </body>
 </html>

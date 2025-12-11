@@ -266,9 +266,74 @@
         © 2025 Copyright: <a class="text-reset fw-bold" href="">Kayky-ctrl</a>
     </div>
 </footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <script src="js/api.js"></script>
+<script>
+    document.getElementById('btn-go').addEventListener('click', async () => {
+
+        // Captura dos valores
+        const payload = {
+            id: document.getElementById('pokemon-id').value, // Isso vai para pokedex_id
+            name: {
+                english: document.getElementById('name_english-id').value
+            },
+            type: document.getElementById('type-id').value.split(',').map(s => s.trim()), // "Fire, Flying" -> ["Fire", "Flying"]
+            image: document.getElementById('img-id').value,
+            species: document.getElementById('specie-id').value,
+            description: document.getElementById('description-id').value,
+            base: {
+                HP: document.getElementById('hp-id').value,
+                Attack: document.getElementById('attack-id').value,
+                Defense: document.getElementById('defense-id').value,
+                "Sp. Attack": document.getElementById('sp-attack-id').value,
+                "Sp. Defense": document.getElementById('sp-defense-id').value,
+                Speed: document.getElementById('speed-id').value
+            },
+            profile: {
+                height: document.getElementById('height-id').value,
+                weight: document.getElementById('weight-id').value,
+                egg: [document.getElementById('egg-id').value],
+                ability: [document.getElementById('ability-id').value],
+                gender: document.getElementById('genre-id').value
+            },
+            evolution: {
+                prev: document.getElementById('prev-evolution-id').value ? [document.getElementById('prev-evolution-id').value] : [],
+                next: document.getElementById('next-evolution-id').value ? [[document.getElementById('next-evolution-id').value]] : []
+            }
+        };
+
+        try {
+            const response = await authFetch('/pokemon/read', {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) {
+                throw new Error(`Erro no servidor: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(data.message);
+                window.location.href = 'dashboard.html';
+            } else {
+                console.log(data);
+                alert('Erro ao salvar: ' + (data.message || 'Verifique os dados'));
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Erro na requisição.');
+        }
+    });
+
+    // Preview da imagem
+    document.getElementById('img-id').addEventListener('change', function() {
+        const previewBox = document.querySelector('.img-preview-box');
+        if(this.value) {
+            previewBox.innerHTML = `<img src="${this.value}" style="height:100%; width:100%; object-fit:contain;">`;
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 </body>
 </html>
