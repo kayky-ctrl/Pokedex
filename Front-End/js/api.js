@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8000/api';
+const API_URL = 'https://pokedex-baf1.onrender.com/api';
 
 async function authFetch(url, options = {}){
     const token = localStorage.getItem('user_token');
@@ -27,7 +27,7 @@ async function authFetch(url, options = {}){
 
     return response
 }
-
+E
 function logout(){
     localStorage.removeItem('user_token');
     window.location.href = 'index.html';

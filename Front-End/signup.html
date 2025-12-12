@@ -212,7 +212,7 @@
                 window.location.href = 'index.html';
             }
             else{
-                let msg = data.message || 'Erro no cadastro';
+                let msg = data.message || 'Erro no cadastro'; // Tenta pegar a mensagem de erro do que vem do servidor e se não vem nada usa uma mensagem padrão
                 if (data.errors){
                     msg += '/n' + JSON.stringify(data.errors);
                 }
